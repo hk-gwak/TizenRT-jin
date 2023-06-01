@@ -152,7 +152,7 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 	local_timeout.tv_usec = (timeout_ms-local_timeout.tv_sec*1000)*1000;
 #endif
 
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS)
 	mosq->in_select = true;
 #endif
 
@@ -161,7 +161,7 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 #else
 	fdcount = select(maxfd+1, &readfds, &writefds, NULL, &local_timeout);
 #endif
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS)
 	mosq->in_select = false;
 #endif
 	if(fdcount == -1){

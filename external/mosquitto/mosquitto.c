@@ -239,7 +239,7 @@ int mosquitto_reinitialise(struct mosquitto *mosq, const char *id, bool clean_st
 	pthread_mutex_init(&mosq->mid_mutex, NULL);
 	mosq->thread_id = pthread_self();
 #endif
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS)
 	mosq->in_select = false;
 	mosq->connect_ainfo = NULL;
 	mosq->connect_ainfo_bind = NULL;
@@ -263,7 +263,7 @@ void mosquitto__destroy(struct mosquitto *mosq)
 #ifdef WITH_THREADING
 #  ifdef HAVE_PTHREAD_CANCEL
 	if(mosq->threaded == mosq_ts_self && !pthread_equal(mosq->thread_id, pthread_self())){
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS)
 		if ((mosq->sockpairW != INVALID_SOCKET) && mosq->in_select) {
 			char sockpair_data = 0xff;
 			if (send(mosq->sockpairW, &sockpair_data, 1, 0) == -1) {
@@ -388,7 +388,7 @@ void mosquitto__destroy(struct mosquitto *mosq)
 		COMPAT_CLOSE(mosq->sockpairW);
 		mosq->sockpairW = INVALID_SOCKET;
 	}
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS)
 	if (mosq->connect_ainfo) {
 		freeaddrinfo(mosq->connect_ainfo);
 		mosq->connect_ainfo = NULL;

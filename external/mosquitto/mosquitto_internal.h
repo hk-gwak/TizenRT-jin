@@ -397,7 +397,7 @@ struct mosquitto {
 #endif
 	uint32_t events;
 
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS)
 	bool in_select;
 	struct addrinfo *connect_ainfo;
 	struct addrinfo *connect_ainfo_bind;
