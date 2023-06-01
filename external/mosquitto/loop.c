@@ -87,6 +87,7 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 			}
 		}
 #endif
+#if 0
 #ifdef WITH_MBEDTLS
 		if ((mosq->mbedtls_state == mosq_mbedtls_state_enabled) && mosq->ssl) {
 			if (mosq->want_write) {
@@ -99,6 +100,7 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 				FD_CLR(mosq->sock, &writefds);
 			}
 		}
+#endif
 #endif
 		pthread_mutex_unlock(&mosq->out_packet_mutex);
 		pthread_mutex_unlock(&mosq->current_out_packet_mutex);
@@ -207,11 +209,13 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 					if(rc) return rc;
 				}else
 #endif
+#if 0
 #ifdef WITH_MBEDTLS
 					if ((mosq->mbedtls_state == mosq_mbedtls_state_enabled) && mosq->want_connect) {
 						rc = net__socket_connect_tls(mosq);
 						if(rc) return rc;
 					}else
+#endif
 #endif
 				{
 					rc = mosquitto_loop_write(mosq, max_packets);
@@ -424,6 +428,7 @@ int mosquitto_loop_read(struct mosquitto *mosq, int max_packets)
 	}
 #endif
 
+#if 0
 #ifdef WITH_MBEDTLS
 	if((mosq->mbedtls_state == mosq_mbedtls_state_enabled) && mosq->want_connect){
 		rc = net__socket_connect_tls(mosq);
@@ -432,6 +437,7 @@ int mosquitto_loop_read(struct mosquitto *mosq, int max_packets)
 		}
 		return rc;
 	}
+#endif
 #endif
 
 	pthread_mutex_lock(&mosq->msgs_out.mutex);

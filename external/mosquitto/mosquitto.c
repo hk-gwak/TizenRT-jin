@@ -216,6 +216,7 @@ int mosquitto_reinitialise(struct mosquitto *mosq, const char *id, bool clean_st
 	mosq->want_write = false;
 	mosq->tls_ocsp_required = false;
 #endif
+#if 0
 #ifdef WITH_MBEDTLS
 	mosq->mbedtls_state = mosq_mbedtls_state_disabled;
 	mosq->ssl = NULL;
@@ -224,6 +225,7 @@ int mosquitto_reinitialise(struct mosquitto *mosq, const char *id, bool clean_st
 	mosq->tls_hostname = NULL;
 	mosq->want_write = false;
 	mosq->tls_insecure = false;
+#endif
 #endif
 #ifdef WITH_THREADING
 	pthread_mutex_init(&mosq->callback_mutex, NULL);
@@ -320,6 +322,7 @@ void mosquitto__destroy(struct mosquitto *mosq)
 	mosquitto__free(mosq->tls_psk_identity);
 	mosquitto__free(mosq->tls_alpn);
 #endif
+#if 0
 #ifdef WITH_MBEDTLS
 	if (mosq->cert) {
 		mbedtls_x509_crt_free(mosq->cert);
@@ -353,7 +356,7 @@ void mosquitto__destroy(struct mosquitto *mosq)
 		free(mosq->ssl_ctx);
 	}
 #endif
-
+#endif
 	mosquitto__free(mosq->address);
 	mosq->address = NULL;
 
@@ -427,6 +430,7 @@ bool mosquitto_want_write(struct mosquitto *mosq)
 		}
 	}
 #endif
+#if 0
 #ifdef WITH_MBEDTLS
 	if((mosq->mbedtls_state == mosq_mbedtls_state_enabled) && (mosq->ssl)){
 		if (mosq->want_write) {
@@ -435,6 +439,7 @@ bool mosquitto_want_write(struct mosquitto *mosq)
 			result = false;
 		}
 	}
+#endif
 #endif
 	return result;
 }

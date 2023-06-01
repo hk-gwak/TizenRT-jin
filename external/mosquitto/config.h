@@ -87,7 +87,9 @@
 #  define CJSON_VERSION_FULL (CJSON_VERSION_MAJOR*1000000+CJSON_VERSION_MINOR*1000+CJSON_VERSION_PATCH)
 #endif
 
+#if 0
 #ifdef WITH_MBEDTLS
+#error do not come here line 90
 #include "mbedtls/ssl.h"
 #include "mbedtls/net.h"
 #include "mbedtls/x509_crt.h"
@@ -96,5 +98,5 @@
 #include "mbedtls/ssl_cache.h"
 #include "mbedtls/entropy.h"
 #endif
-
+#endif 
 #endif

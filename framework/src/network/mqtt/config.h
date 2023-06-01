@@ -48,6 +48,7 @@
 #	define EPROTO ECONNABORTED
 #endif
 
+#if 0
 #ifdef WITH_MBEDTLS
 #include "mbedtls/ssl.h"
 #include "mbedtls/net.h"
@@ -56,4 +57,5 @@
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/ssl_cache.h"
 #include "mbedtls/entropy.h"
+#endif
 #endif

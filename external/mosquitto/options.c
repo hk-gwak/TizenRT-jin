@@ -203,7 +203,8 @@ int mosquitto_tls_set(struct mosquitto *mosq, const char *cafile, const char *ca
 
 
 	return MOSQ_ERR_SUCCESS;
-#else
+//#else
+#if 0
 #ifdef WITH_MBEDTLS
 	if (!mosq || !cafile) {
 		return MOSQ_ERR_INVAL;
@@ -297,7 +298,10 @@ int mosquitto_tls_set(struct mosquitto *mosq, const char *cafile, const char *ca
 #endif
 	mosq->mbedtls_state = mosq_mbedtls_state_enabled;
 	return MOSQ_ERR_SUCCESS;
+#endif
+#endif
 #else
+
 	UNUSED(mosq);
 	UNUSED(cafile);
 	UNUSED(capath);
@@ -306,7 +310,7 @@ int mosquitto_tls_set(struct mosquitto *mosq, const char *cafile, const char *ca
 	UNUSED(pw_callback);
 
 	return MOSQ_ERR_NOT_SUPPORTED;
-#endif
+//#endif
 #endif
 }
 

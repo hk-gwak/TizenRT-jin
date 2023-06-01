@@ -163,6 +163,7 @@ int mosquitto_publish_v5(struct mosquitto *mosq, int *mid, const char *topic, in
 	}
 }
 
+
 int mosquitto_subscribe(struct mosquitto *mosq, int *mid, const char *sub, int qos)
 {
 	return mosquitto_subscribe_multiple(mosq, mid, 1, (char *const *const)&sub, qos, 0, NULL);

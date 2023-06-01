@@ -29,11 +29,11 @@ Contributors:
 #ifdef WITH_TLS
 #  include <openssl/ssl.h>
 #else
-#	ifdef WITH_MBEDTLS
-#		include "mbedtls/ssl.h"
-#	else
+//#	ifdef WITH_MBEDTLS
+//#		include "mbedtls/ssl.h"
+//#	else
 #  include <time.h>
-#	endif
+//#	endif
 #endif
 #include <stdlib.h>
 
@@ -145,14 +145,14 @@ enum mosquitto__transport {
 	mosq_t_ws = 2,
 	mosq_t_sctp = 3
 };
-
+#if 0
 #ifdef WITH_MBEDTLS
 enum _mosquitto_mbedtls_state {
 	mosq_mbedtls_state_disabled = 0,
 	mosq_mbedtls_state_enabled = 1,
 };
 #endif
-
+#endif
 struct mosquitto__alias{
 	char *topic;
 	uint16_t alias;
@@ -259,6 +259,7 @@ struct mosquitto {
 	int out_packet_count;
 	uint32_t will_delay_interval;
 	time_t will_delay_time;
+#if 0	
 #ifdef WITH_MBEDTLS
 	int mbedtls_state;
 	mbedtls_ssl_config *ssl;
@@ -280,6 +281,7 @@ struct mosquitto {
 	unsigned int tls_key_len;
 	int tls_cert_reqs;
 	bool tls_insecure;
+#endif
 #endif
 #ifdef WITH_TLS
 	SSL *ssl;

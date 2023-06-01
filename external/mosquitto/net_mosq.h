@@ -85,9 +85,9 @@ UI_METHOD *net__get_ui_method(void);
 #define ENGINE_SECRET_MODE_SHA 0x1000
 #define ENGINE_PIN "PIN"
 #endif
-
+#if 0
 #ifdef WITH_MBEDTLS
 int net__socket_connect_tls(struct mosquitto *mosq);
 #endif
-
+#endif
 #endif

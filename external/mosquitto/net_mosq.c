@@ -602,7 +602,7 @@ int net__socket_connect_tls(struct mosquitto *mosq)
 	return MOSQ_ERR_SUCCESS;
 }
 #endif
-
+#if 0
 #ifdef WITH_MBEDTLS
 int net__socket_connect_tls(struct mosquitto *mosq)
 {
@@ -620,6 +620,7 @@ int net__socket_connect_tls(struct mosquitto *mosq)
 	log__printf(mosq, MOSQ_LOG_DEBUG, "Handshake End.");
 	return MOSQ_ERR_SUCCESS;
 }
+#endif
 #endif
 
 #ifdef WITH_TLS
@@ -946,6 +947,7 @@ int net__socket_connect_step3(struct mosquitto *mosq, const char *host)
 		}
 
 	}
+/*
 #elif defined WITH_MBEDTLS
 	if ((mosq->mbedtls_state == mosq_mbedtls_state_enabled) && mosq->ssl != NULL) {
 		int ret;
@@ -987,6 +989,7 @@ int net__socket_connect_step3(struct mosquitto *mosq, const char *host)
 			return MOSQ_ERR_TLS;
 		}
 	}
+*/
 #else
 	UNUSED(mosq);
 	UNUSED(host);
@@ -1073,6 +1076,7 @@ ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
 		/* Call normal read/recv */
 
 #endif
+#if 0
 #ifdef WITH_MBEDTLS
 	int ret;
 	if ((mosq->mbedtls_state == mosq_mbedtls_state_enabled) && mosq->ssl_ctx) {
@@ -1095,15 +1099,16 @@ ssize_t net__read(struct mosquitto *mosq, void *buf, size_t count)
 	} else {
 		/* Call normal write/send */
 #endif
-
+#endif
 #ifndef WIN32
 	return read(mosq->sock, buf, count);
 #else
 	return recv(mosq->sock, buf, count, 0);
 #endif
-
+#if 0
 #ifdef WITH_MBEDTLS
 	}
+#endif
 #endif
 #ifdef WITH_TLS
 	}
@@ -1129,6 +1134,7 @@ ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 	}else{
 		/* Call normal write/send */
 #endif
+#if 0
 #ifdef WITH_MBEDTLS
 	int ret;
 	if ((mosq->mbedtls_state == mosq_mbedtls_state_enabled) && mosq->ssl_ctx) {
@@ -1140,15 +1146,17 @@ ssize_t net__write(struct mosquitto *mosq, const void *buf, size_t count)
 	} else {
 		/* Call normal write/send */
 #endif
+#endif
 
 #ifndef WIN32
 	return write(mosq->sock, buf, count);
 #else
 	return send(mosq->sock, buf, count, 0);
 #endif
-
+#if 0
 #ifdef WITH_MBEDTLS
 	}
+#endif
 #endif
 #ifdef WITH_TLS
 	}
