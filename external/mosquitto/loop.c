@@ -183,16 +183,18 @@ int mosquitto_loop(struct mosquitto *mosq, int timeout, int max_packets)
 			}
 			if(mosq->sockpairR != INVALID_SOCKET && FD_ISSET(mosq->sockpairR, &readfds)){
 #ifndef WIN32
-#if defined(__TINYARA__)
+/*
+#if defined(__TINYARA__REMOVE_THIS4)
 				if (read(mosq->sockpairR, &pairbuf, 1) == 1) {
 					if (pairbuf == 0xff) {
 						return MOSQ_ERR_FORCE_EXIT;
 					}
 				}
 #else
+*/
 				if(read(mosq->sockpairR, &pairbuf, 1) == 0){
 				}
-#endif							/* __TINYARA__ */
+//#endif							/* __TINYARA__ */
 #else
 				recv(mosq->sockpairR, &pairbuf, 1, 0);
 #endif
@@ -325,7 +327,7 @@ int mosquitto_loop_forever(struct mosquitto *mosq, int timeout, int max_packets)
 			case MOSQ_ERR_UNKNOWN:
 			case MOSQ_ERR_EAI:
 			case MOSQ_ERR_PROXY:
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS4)
 			case MOSQ_ERR_FORCE_EXIT:
 #endif
 				return rc;

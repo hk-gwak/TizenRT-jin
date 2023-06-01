@@ -476,7 +476,7 @@ static int net__try_connect_tcp(const char *host, uint16_t port, mosq_sock_t *so
 	if(bind_address){
 		freeaddrinfo(ainfo_bind);
 	}
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS3)
 	if (*sock == INVALID_SOCKET) {
 		return MOSQ_ERR_NO_CONN;
 	}
@@ -1168,7 +1168,7 @@ int net__socket_nonblock(mosq_sock_t *sock)
 {
 #ifndef WIN32
 	int opt;
-#	if defined(__TINYARA__)
+#	if defined(__TINYARA__REMOVE_THIS3)
 	if (*sock == INVALID_SOCKET) {
 		return 1;
 	}
@@ -1176,7 +1176,7 @@ int net__socket_nonblock(mosq_sock_t *sock)
 	/* Set non-blocking */
 	opt = fcntl(*sock, F_GETFL, 0);
 	if(opt == -1){
-#	if ! defined(__TINYARA__)		/* caller will close sock */
+#	if ! defined(__TINYARA__REMOVE_THIS3)		/* caller will close sock */
 		COMPAT_CLOSE(*sock);
 #	endif
 		*sock = INVALID_SOCKET;
@@ -1184,7 +1184,7 @@ int net__socket_nonblock(mosq_sock_t *sock)
 	}
 	if(fcntl(*sock, F_SETFL, opt | O_NONBLOCK) == -1){
 		/* If either fcntl fails, don't want to allow this client to connect. */
-#	if ! defined(__TINYARA__)		/* caller will close sock */
+#	if ! defined(__TINYARA__REMOVE_THIS3)		/* caller will close sock */
 		COMPAT_CLOSE(*sock);
 #	endif
 		*sock = INVALID_SOCKET;
@@ -1193,7 +1193,7 @@ int net__socket_nonblock(mosq_sock_t *sock)
 #else
 	unsigned long opt = 1;
 	if(ioctlsocket(*sock, FIONBIO, &opt)){
-#	if ! defined(__TINYARA__)		/* caller will close sock */
+#	if ! defined(__TINYARA__REMOVE_THIS3)		/* caller will close sock */
 		COMPAT_CLOSE(*sock);
 #	endif
 		*sock = INVALID_SOCKET;
