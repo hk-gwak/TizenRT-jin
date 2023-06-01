@@ -34,7 +34,7 @@ Contributors:
 #include "net_mosq.h"
 #include "util_mosq.h"
 
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS2)
 #define TINYARA_MQTT_PTHREAD_STACK_SIZE		(8 * 1024)
 #endif
 
@@ -44,8 +44,8 @@ int mosquitto_loop_start(struct mosquitto *mosq)
 {
 #if defined(WITH_THREADING)
 	if(!mosq || mosq->threaded != mosq_ts_none) return MOSQ_ERR_INVAL;
-
-#if defined(__TINYARA__)
+#if 0
+#if defined(__TINYARA__REMOVE_THIS2)
 	char threadname[40];
 	pthread_attr_t attr;
 
@@ -68,7 +68,9 @@ int mosquitto_loop_start(struct mosquitto *mosq)
 
 	return MOSQ_ERR_SUCCESS;
 
-#else
+//#else
+#endif
+#endif
 	mosq->threaded = mosq_ts_self;
 	if(!pthread_create(&mosq->thread_id, NULL, mosquitto__thread_main, mosq)){
 #if defined(__linux__)
@@ -82,7 +84,7 @@ int mosquitto_loop_start(struct mosquitto *mosq)
 	}else{
 		return MOSQ_ERR_ERRNO;
 	}
-#endif
+//#endif
 #else
 	UNUSED(mosq);
 	return MOSQ_ERR_NOT_SUPPORTED;
@@ -161,7 +163,7 @@ void *mosquitto__thread_main(void *obj)
 	if(mosq->threaded == mosq_ts_self){
 		mosq->threaded = mosq_ts_none;
 	}
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS2)
 		mosq->threaded = mosq_ts_none;
 #endif
 	return obj;
