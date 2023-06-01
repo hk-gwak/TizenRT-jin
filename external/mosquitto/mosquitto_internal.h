@@ -59,7 +59,7 @@ Contributors:
 #else
 #	include <stdint.h>
 #endif
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS5)
 #	include <netdb.h>
 #endif
 

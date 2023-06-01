@@ -42,7 +42,7 @@ Contributors:
 
 static unsigned int init_refcount = 0;
 
-#if defined(__TINYARA__)
+#if defined(__TINYARA__REMOVE_THIS5)
 #include <netdb.h>
 #endif
 #if !defined(WIN32) && !defined(__SYMBIAN32__) && !defined(__TINYARA__)
