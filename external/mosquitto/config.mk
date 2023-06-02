@@ -105,7 +105,7 @@ WITH_BUNDLED_DEPS:=no
 WITH_COVERAGE:=no
 
 # Build with unix domain socket support
-WITH_UNIX_SOCKETS:=yes
+WITH_UNIX_SOCKETS:=no
 
 # Build mosquitto_sub with cJSON support
 WITH_CJSON:=no
