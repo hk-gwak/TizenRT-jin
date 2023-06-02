@@ -57,7 +57,8 @@ include ../external/mosquitto/config.mk
 CSRCS += mqtt_api.c
 
 CFLAGS += -I../external/mosquitto
-CFLAGS += -I../external/include/mosquitto
+CFLAGS += -I../external/mosquitto/lib
+CFLAGS += -I../external/mosquitto/include
 
 DEPPATH += --dep-path src/network/mqtt
 VPATH += :src/network/mqtt

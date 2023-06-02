@@ -129,6 +129,11 @@ extern "C" {
 #define AF_INET6 PF_INET6
 #endif
 
+/*Abhishek: change for mosquitto compilation fix : To review */
+#ifndef AF_UNIX
+#define AF_UNIX PF_UNIX
+#endif
+
 /****************************************************************************
  * Public Structure
  ****************************************************************************/
