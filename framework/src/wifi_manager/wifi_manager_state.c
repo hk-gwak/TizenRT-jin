@@ -38,7 +38,6 @@
 #include "wifi_manager_info.h"
 #include "wifi_manager_lwnl.h"
 
-#define IS_HOMELYNK_ENABLE 1
 
 /*  Setting MACRO */
 static inline void WIFIMGR_SET_SSID(char *s)
@@ -504,7 +503,7 @@ wifi_manager_result_e _handler_on_connected_state(wifimgr_msg_s *msg)
 		wifimgr_call_cb(CB_STA_DISCONNECTED, msg->param);
 		WIFIMGR_SET_STATE(WIFIMGR_STA_DISCONNECTED);
 	} else if (msg->event == WIFIMGR_CMD_SET_SOFTAP) {
-#if defined(IS_HOMELYNK_ENABLE) && (IS_HOMELYNK_ENABLE == 1)
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 		WIFIMGR_COPY_SOFTAP_CONFIG(g_manager_info.softap_config, (wifi_manager_softap_config_s *)msg->param);
 		WIFIMGR_CHECK_RESULT(_wifimgr_run_softap((wifi_manager_softap_config_s *)msg->param),
 							 (TAG, "run_softap fail\n"), WIFI_MANAGER_FAIL);
@@ -578,7 +577,7 @@ wifi_manager_result_e _handler_on_softap_state(wifimgr_msg_s *msg)
 		WIFIMGR_SEND_API_SIGNAL(msg->signal);
 		WIFIMGR_SET_STATE(WIFIMGR_UNINITIALIZED);
 	}
-#if defined(IS_HOMELYNK_ENABLE) && (IS_HOMELYNK_ENABLE == 1)
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 	else if (msg->event == WIFIMGR_CMD_CONNECT) {
 		wifi_manager_ap_config_s *apinfo = (wifi_manager_ap_config_s *)msg->param;
 		WIFIMGR_CHECK_RESULT(_wifimgr_connect_ap(apinfo), (TAG, "connect ap fail\n"), WIFI_MANAGER_FAIL);

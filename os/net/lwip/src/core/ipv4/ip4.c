@@ -76,7 +76,6 @@
 
 #include <string.h>
 
-#define IP_NAT 1
 
 #ifdef LWIP_HOOK_FILENAME
 #include LWIP_HOOK_FILENAME
@@ -334,7 +333,7 @@ static void ip4_forward(struct pbuf *p, struct ip_hdr *iphdr, struct netif *inp)
 		return;
 	}
 
-#if defined(IP_NAT) && (IP_NAT == 1)
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 	if(ip_nat_transfer(p, inp, netif) != ERR_OK) {
 		return;
 	}
@@ -468,7 +467,8 @@ err_t ip4_input(struct pbuf *p, struct netif *inp)
 		}
 	}
 #endif
-#if defined(IP_NAT) && (IP_NAT == 1)
+
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 	if(ip_nat_enqueue(p, inp) != ERR_OK) {
 		pbuf_free(p);
 		IP_STATS_INC(ip.chkerr);

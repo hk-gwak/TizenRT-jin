@@ -79,7 +79,6 @@
 #include "lwip/netif/ppp/ppp_opts.h"
 #include "lwip/netif/ppp/ppp_impl.h"
 
-#define IP_NAT 1
 
 #ifndef LWIP_SKIP_PACKING_CHECK
 
@@ -388,9 +387,9 @@ void lwip_init(void)
 //  ppp_init();                 /* PPP_INIT not implemented */
 #endif
 
-#if defined(IP_NAT) && (IP_NAT == 1)
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 	ip_nat_initialize();
-#endif							/* IP_NAT */
+#endif							/* CONFIG_ENABLE_HOMELYNK */
 
 #if LWIP_TIMERS
 	sys_timeouts_init();

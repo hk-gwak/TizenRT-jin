@@ -64,15 +64,13 @@
 #include <string.h>
 #include "debug.h"
 
-#define IP_NAT 1
 #define configTICK_RATE_HZ								( 1000 )
 #define IPNAT_DEBUG LWIP_DBG_OFF
 
 typedef void *_mutex;
 
-
 #if defined(IP_FORWARD) && (IP_FORWARD == 1)
-#if defined(IP_NAT) && (IP_NAT == 1)
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 void nat_debug_print(void);
 static u16_t ip_nat_add_entry(u8_t proto, u32_t src, u16_t sport, u32_t dest, u16_t dport, u32_t app_use);
 static struct nat_table* ip_nat_entry_search(u8_t proto, u32_t addr, u16_t port, u16_t portmap, u8_t dest, u8_t frag, u32_t daddr, u16_t dportmap);
@@ -1092,8 +1090,7 @@ printf(" %3"U16_F" | %3"U16_F" | %3"U16_F" | %3"U16_F" |",
 
   
 }
-
-#endif // IP_NAT
+#endif // CONFIG_ENABLE_HOMELYNK
 #endif
 
 
