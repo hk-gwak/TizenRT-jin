@@ -8,6 +8,7 @@ extern "C" {
 #endif
 
 #if IP_FORWARD
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 
 /* Default size of the tables used for NAT */
 #define IP_NAT_MAX 256
@@ -28,8 +29,8 @@ extern "C" {
 void ip_nat_initialize(void);
 err_t ip_nat_enqueue(struct pbuf *p, struct netif *inp);
 err_t ip_nat_transfer(struct pbuf *p, struct netif *src, struct netif *target);
+#endif /* CONFIG_ENABLE_HOMELYNK */
 #endif /* IP_FORWARD */
-
 #ifdef __cplusplus
 }
 #endif

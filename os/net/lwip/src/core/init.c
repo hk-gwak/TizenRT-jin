@@ -79,7 +79,6 @@
 #include "lwip/netif/ppp/ppp_opts.h"
 #include "lwip/netif/ppp/ppp_impl.h"
 
-
 #ifndef LWIP_SKIP_PACKING_CHECK
 
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -388,6 +387,7 @@ void lwip_init(void)
 #endif
 
 #if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
+/* TODO: Based on APPs use case this call may move to other place */
 	ip_nat_initialize();
 #endif							/* CONFIG_ENABLE_HOMELYNK */
 

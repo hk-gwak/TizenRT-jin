@@ -1085,7 +1085,7 @@ printf(" %3"U16_F" | %3"U16_F" | %3"U16_F" | %3"U16_F" |",
 #endif
   }
 }
-#endif // CONFIG_ENABLE_HOMELYNK
+#endif /* CONFIG_ENABLE_HOMELYNK */
 #endif
 
 
