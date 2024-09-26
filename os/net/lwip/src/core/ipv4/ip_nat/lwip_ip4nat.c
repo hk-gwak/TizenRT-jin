@@ -65,7 +65,6 @@
 #include "debug.h"
 
 #define configTICK_RATE_HZ								( 1000 )
-#define IPNAT_DEBUG LWIP_DBG_OFF
 
 typedef void *_mutex;
 
@@ -176,7 +175,7 @@ void ip_nat_initialize(void)
   int size = sizeof(struct nat_table)*IP_NAT_MAX;
   ip_nat_table = (struct nat_table*)malloc(size);
   if(!ip_nat_table) {
-	  LWIP_DEBUGF(IPNAT_DEBUG, ("%s:%d Memory allocation failed for size=%u Bytes\n",__FUNCTION__,__LINE__,size));
+	  LWIP_DEBUGF(IPNAT_DEBUG | LWIP_DBG_LEVEL_SERIOUS, ("%s:%d Memory allocation failed for size=%u Bytes\n",__FUNCTION__,__LINE__,size));
 	  return;
   }
   memset(ip_nat_table, 0x00, size);
@@ -191,6 +190,16 @@ void ip_nat_initialize(void)
 //sys_timeout((15*1000), ipnat_ageing_tmr, NULL);
 }
 
+void ip_nat_deinitialize(void)
+{
+	rtw_mutex_get(&nat_entry_lock);
+	if (ip_nat_table) {
+		free(ip_nat_table);
+		ip_nat_table = NULL;
+	}
+	rtw_mutex_put(&nat_entry_lock);
+	rtw_mutex_free(&nat_entry_lock);
+}
 
 static void ip_nat_insert_new_rule(struct nat_table *rule_entry)
 {
@@ -271,7 +280,6 @@ static struct nat_table* ip_nat_entry_search(u8_t proto, u32_t addr, u16_t port,
   u16_t i, next;
   struct nat_table *NEntry;
 
-  LWIP_DEBUGF(IPNAT_DEBUG, ("ip_nat_entry_search\n"));
 //SRI-D TODO Review
 #if 0
   LWIP_DEBUGF(IPNAT_DEBUG, ("searching in table %s: %"U16_F".%"U16_F".%"U16_F".%"U16_F", port: %d, mport: %d\n",
@@ -401,7 +409,6 @@ LWIP_DEBUGF(IPNAT_DEBUG, ("searching in table %s: %"U16_F".%"U16_F".%"U16_F".%"U
     }
   }
 
-  LWIP_DEBUGF(IPNAT_DEBUG, ("not found\n"));
   return NULL;
 }
 
@@ -879,7 +886,7 @@ err_t ip_nat_forward_packet(struct pbuf *p, struct ip_hdr *iphdr, struct netif *
   if (IPH_PROTO(iphdr) == IP_PROTO_UDP) {
     struct udp_hdr *udphdr = (struct udp_hdr *)((u8_t *)p->payload + IPH_HL(iphdr) * 4);
     
-    struct nat_table *NEntry1;
+//    struct nat_table *NEntry1;
     frag_offset= lwip_ntohs(iphdr->_offset) & IP_OFFMASK;
     if (frag_offset ==0) {
       
@@ -1015,17 +1022,10 @@ err_t ip_nat_enqueue(struct pbuf *p, struct netif *inp)
     return ERR_OK;
   }
 //SRI-D TODO : Review
-#if 0
-  if (ip_addr_cmp(&iphdr->dest, &(inp->ip_addr))) {
-    ip_nat_rx_packet(p, iphdr);
+	LWIP_DEBUGF(IPNAT_DEBUG, ("%s:%d dest:=0x%x inp=0x%x\n",__FUNCTION__,__LINE__,(iphdr->dest).addr,(inp->ip_addr).u_addr.ip4.addr));
+	if (ip4_addr_cmp(&iphdr->dest, &((inp->ip_addr).u_addr.ip4))) {
+		ip_nat_rx_packet(p, iphdr);
   }
-#else
-  ip_addr_t *dest = (ip_addr_t *)&iphdr->dest;
-
-  if (dest->u_addr.ip4.addr == (inp->ip_addr).u_addr.ip4.addr) {
-    ip_nat_rx_packet(p, iphdr);
-  }
-#endif
   return ERR_OK;
 
 }
@@ -1038,9 +1038,6 @@ void ipnat_dump(void)
   nat_debug_print();
   rtw_mutex_put(&nat_entry_lock);
 }
-
-
-
 
 void nat_debug_print(void)
 {
@@ -1087,8 +1084,6 @@ printf(" %3"U16_F" | %3"U16_F" | %3"U16_F" | %3"U16_F" |",
                       Entry->proto,Entry->pkt_count, GET_NAT_ENTRY_TIME_ELAPSED(now, Entry->ts));
 #endif
   }
-
-  
 }
 #endif // CONFIG_ENABLE_HOMELYNK
 #endif
