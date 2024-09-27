@@ -11,6 +11,7 @@ extern "C" {
 #if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 
 /* Default size of the tables used for NAT */
+/* TODO : Need to make this size configurable with menu config? */
 #define IP_NAT_MAX 256
 
 
@@ -24,7 +25,6 @@ extern "C" {
 #define IP_NAT_MAX_TIMEOUT_MS_UDP (8*1000)
 #define IP_NAT_MAX_TIMEOUT_MS_UDP_ALG (20*1000)
 #define IP_NAT_MAX_TIMEOUT_MS_ICMP (2*1000)
-
 
 void ip_nat_initialize(void);
 err_t ip_nat_enqueue(struct pbuf *p, struct netif *inp);
