@@ -66,6 +66,7 @@ trwifi_result_e wifi_netmgr_utils_start_softap(struct netdev *dev, trwifi_softap
 trwifi_result_e wifi_netmgr_utils_stop_softap(struct netdev *dev);
 trwifi_result_e wifi_netmgr_utils_set_autoconnect(struct netdev *dev, uint8_t check);
 trwifi_result_e wifi_netmgr_utils_ioctl(struct netdev *dev, trwifi_msg_s *msg);
+trwifi_result_e wifi_netmgr_utils_set_bridge(struct netdev *dev, uint8_t control);
 void print_scan_result(rtw_scan_result_t *record);
 
 struct trwifi_ops g_trwifi_drv_ops = {
@@ -81,6 +82,7 @@ struct trwifi_ops g_trwifi_drv_ops = {
 	wifi_netmgr_utils_set_autoconnect, /* set_autoconnect */
 	wifi_netmgr_utils_ioctl,					/* drv_ioctl */
 	wifi_netmgr_utils_scan_multi_ap,	/* scan_multi_ap */
+	wifi_netmgr_utils_set_bridge,		/* set_bridge */
 };
 
 static trwifi_scan_list_s *g_scan_list;
@@ -826,6 +828,20 @@ trwifi_result_e wifi_netmgr_utils_set_autoconnect(struct netdev *dev, uint8_t ch
 		nvdbg("[RTK] External Autoconnect set to %d\n", check);
 	} else {
 		ndbg("[RTK] External Autoconnect failed to set %d", check);
+	}
+	return wuret;
+}
+
+trwifi_result_e wifi_netmgr_utils_set_bridge(struct netdev *dev, uint8_t control)
+{
+	trwifi_result_e wuret = TRWIFI_SUCCESS;
+	int ret = RTK_STATUS_SUCCESS;
+//	ret = DO_SOMETHING(control);
+	if (ret == RTK_STATUS_SUCCESS) {
+		wuret = TRWIFI_SUCCESS;
+		nvdbg("[RTK] External Bridge mode set to %d\n", control);
+	} else {
+		ndbg("[RTK] External Bridge mode failed to set %d", control);
 	}
 	return wuret;
 }

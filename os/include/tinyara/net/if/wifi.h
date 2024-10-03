@@ -120,7 +120,10 @@ typedef enum {
 	LWNL_REQ_WIFI_STOPSOFTAP,
 	LWNL_REQ_WIFI_IOCTL,
 	LWNL_REQ_WIFI_SCAN_MULTI_APS,
-	LWNL_REQ_WIFI_UNKNOWN
+	LWNL_REQ_WIFI_UNKNOWN,
+	LWNL_REQ_WIFI_SETBRIDGE,
+//	LWNL_REQ_WIFI_BRIDGE_ON,
+//	LWNL_REQ_WIFI_BRIDGE_OFF,
 } lwnl_req_wifi;
 
 /**
@@ -510,6 +513,24 @@ typedef trwifi_result_e (*trwifi_stop_softap)(struct netdev *dev);
 typedef trwifi_result_e (*trwifi_set_autoconnect)(struct netdev *dev, uint8_t chk);
 
 /**
+ * @brief   Set auto-connection to wi-fi library
+ *
+ * @param[in]   dev    : struct netdev registered by netdev_register()
+ * @param[in]   control  : 0: disable
+ *                         1: enable
+ *
+ * @function_type  synchronous call
+ *
+ * @description    enable bridge mode features in Wi-Fi library.
+ *
+ * @return TRWIFI_SUCCESS      : success
+ * @return TRWIFI_FAIL         : fail
+ * @return TRWIFI_INVALID_ARGS : arguments are invalid
+ */
+typedef trwifi_result_e (*trwifi_set_bridge)(struct netdev *dev, uint8_t control);
+
+
+/**
  * @brief   Get wi-fi information
  *
  * @param[in]   dev    : struct netdev registered by netdev_register()
@@ -558,6 +579,7 @@ struct trwifi_ops {
 	trwifi_set_autoconnect set_autoconnect;
 	trwifi_drv_ioctl drv_ioctl;
 	trwifi_scan_multi_aps scan_multi_aps;
+	trwifi_set_bridge set_bridge;
 };
 
 int trwifi_serialize_scaninfo(uint8_t **buffer, trwifi_scan_list_s *scan_list);

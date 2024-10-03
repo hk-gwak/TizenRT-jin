@@ -225,6 +225,13 @@ int netdev_handle_wifi(struct netdev *dev, lwnl_req cmd, void *data, uint32_t da
 		TRWIFI_CALL(res, dev, scan_multi_aps, (dev, (trwifi_scan_multi_configs_s *)data));
 	}
 	break;
+	case LWNL_REQ_WIFI_SETBRIDGE:
+	{
+		NET_LOGKE(TAG, "LWNL_REQ_WIFI_SETBRIDGE enable=%d\n",*((uint8_t *)data));
+		lwip_set_bridge_mode(*((uint8_t *)data));
+		TRWIFI_CALL(res, dev, set_bridge, (dev, *((uint8_t *)data)));
+	}
+	break;
 	default:
 		break;
 	}

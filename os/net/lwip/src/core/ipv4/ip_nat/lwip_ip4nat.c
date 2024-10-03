@@ -934,6 +934,7 @@ err_t ip_nat_enqueue(struct pbuf *p, struct netif *inp)
 	iphdr = (struct ip_hdr *)p->payload;
 	iphdr_hlen = IPH_HL(iphdr);
 	iphdr_hlen *= 4;
+
 	if ((iphdr->dest.addr & PP_HTONL(0xf0000000UL)) == PP_HTONL(0xe0000000UL)) {
 		return ERR_OK;
 	}

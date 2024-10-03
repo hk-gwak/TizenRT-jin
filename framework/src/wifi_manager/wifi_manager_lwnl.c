@@ -217,3 +217,15 @@ trwifi_result_e wifi_utils_get_info(trwifi_info *wifi_info)
 	}
 	return res;
 }
+
+trwifi_result_e wifi_utils_control_bridge(uint8_t enable)
+{
+	trwifi_result_e res = TRWIFI_SUCCESS;
+	uint8_t *control = &enable;
+	lwnl_msg msg = {WU_INTF_NAME_1, {LWNL_REQ_WIFI_SETBRIDGE},
+					sizeof(uint8_t), (void *)control, (void *)&res};
+	if (_send_msg(&msg) < 0) {
+		return TRWIFI_FAIL;
+	}
+	return res;
+}
