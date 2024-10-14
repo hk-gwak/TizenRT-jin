@@ -1,22 +1,68 @@
 /* == "version" + "Realtek git version" + "compile date" + "compile time" == */
 
+== version 9702f2b8da 2024/10/09-09:53:04 ==
+1. Enable RTC as wakeup interrupt src
+2. Add RTC wakeup reason
+
+== version a676e7969f 2024/10/04-14:35:42 ==
+1. Reduce sleep/wakeup log into one line
+
+== version d388ac9932 2024/09/25-12:22:27 ==
+1. Fix LOGUART stuck due to RX data available interrupt bit not being re-enabled in KM0
+
+== version ad3d966441 2024/09/11-18:20:44 ==
+1. Add support to obtain key_mgnt value during wifi disconnect event
+2. Remove support of obtaining key_mgnt value of current wifi connection
+
+== version c64c1d4098 2024/09/10-18:52:07 ==
+1. Added cpsid disable interrupt in LP:KM0 
+	Modify the flow to prevent KM0 and KM4 to modify SPIC clock at the same time
+2. Change the register to store the wakeup source
+	Previous: REG_LSYS_DUMMY_090 was used for others purpose in DDR package.
+	New: REG_LSYS_DUMMY_089
+
+== version 5f6a253359 2024/09/04-17:11:16 ==
+1. Correct tx power operation for WiFi and BT for DDR package
+
 == version 5f6a253359 2024/08/30-16:57:54 ==
 1.	Change log level of "warning report" log from warning to error to reduce print frequency
 
+== version 2d33ba7ba3 2024/08/28-20:11:42 ==
+1.	Add support to obtain KM4 image version info
+2.	Add support to obtain key_mgnt value of current wifi connection
+3.	Add support to obtain tx retry value 
+
+== version bffc871d53 2024/08/24-10:31:40 ==
+1.  Fix high power issue when 5G wifi connect + BT Adv + PG sleep
+
+== version a52222ac01_2024/08/07-11:00:02 ==
+1.	Adjust layout for RTL8730EAH-VH6-CG NOR Flash 32MB + DDR2 64MB
+	- CA32_BL3_DRAM_NS address adjusted: 0x64000000 - 0x60100000; 63MB
+2.	DDR changes
+
+== version 7e6a043b9d 2024/07/11-10:50:32 ==
+1.	Support setting of wifi channel plan during runtime
+
+== version 53c14e1b91_2024/07/08-14:18:57 ==
+1.	Move pinmap_init from KM4 to AP to avoid timing issue
+
+== version 070536098d 2024/06/26-15:34:07 ==
+1.	Fix KM4 crash when stopping wifi csi
+
 == version 68a34c3d 2024/06/25-16:14:09 ==
-1. Redirect KM4 logs to be printed in TizenRT CA32 using ipc print to prevent mixed logs
-2. Modify IPC print implementation to use separate IPC channel from wifi
-3. Add KM4 version info log in KM4 during boot up
+1.	Redirect KM4 logs to be printed in TizenRT CA32 using ipc print to prevent mixed logs
+2.	Modify IPC print implementation to use separate IPC channel from wifi
+3.	Add KM4 version info log in KM4 during boot up
 
 == version feb7475b 2024/06/25-14:58:47 ==
-1. Add wakeup reason for PM profiling
+1.	Add wakeup reason for PM profiling
 
 == version 280ecfe2 2024/06/06-17:25:45 ==
-1. Fix KM4 crash when initializing/deinitializing softap repeatedly
+1.	Fix KM4 crash when initializing/deinitializing softap repeatedly
 
 == version 2eb067f 2024/05/08-12:24:28 ==
-1. Enable GPIO channel A as wakeup interrupt src
-2. Add wakeup src information
+1.	Enable GPIO channel A as wakeup interrupt src
+2.	Add wakeup src information
 
 == version d08ed534 2024/05/31-17:08:16 ==
 1.	Add feature in fault handler to indicate KM4/KM0 fault
