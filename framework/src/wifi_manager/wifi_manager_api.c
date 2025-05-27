@@ -15,8 +15,6 @@
  * language governing permissions and limitations under the License.
  *
  ****************************************************************************/
-#include <tinyara/config.h>
-
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -49,13 +47,13 @@
 		}                                                                                                                       \
 	} while (0)
 
-#define RETURN_RESULT(res, msg)					\
-	do {										\
-		if (res < 0) {							\
-			return WIFI_MANAGER_POST_FAIL;			\
-		} else {								\
-			return msg.result;					\
-		}										\
+#define RETURN_RESULT(res, msg)            \
+	do {                                   \
+		if (res < 0) {                     \
+			return WIFI_MANAGER_POST_FAIL; \
+		} else {                           \
+			return msg.result;             \
+		}                                  \
 	} while (0)
 #define TAG "[WM]"
 
@@ -188,11 +186,22 @@ wifi_manager_result_e wifi_manager_disconnect_ap(void)
 	RETURN_RESULT(wifimgr_post_message(&msg), msg);
 }
 
+// Valid channel list is from https://www.wirelesstrainingsolutions.com/new-spectrum/ by realtek engineer
+static int valid_ch_list[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165};
+static int valid_ch_list_size = sizeof(valid_ch_list) / sizeof(valid_ch_list[0]);
+
 wifi_manager_result_e wifi_manager_scan_ap(wifi_manager_scan_config_s *config)
 {
 	NET_LOGI(TAG, "--> %s %d\n", __FUNCTION__, __LINE__);
 	if (config) {
-		if (config->channel > WIFIMGR_2G_CHANNEL_MAX) {
+		int ch_valid = 0;
+		for (int i = 0; i < valid_ch_list_size; i++) {
+			if (config->channel == valid_ch_list[i]) {
+				ch_valid = 1;
+				break;
+			}
+		}
+		if (!ch_valid) {
 			WIFIADD_ERR_RECORD(ERR_WIFIMGR_INVALID_ARGUMENTS);
 			NET_LOGE(TAG, "invalid channel range %d\n", config->channel);
 			return WIFI_MANAGER_INVALID_ARGS;
@@ -311,12 +320,32 @@ wifi_manager_result_e wifi_manager_unregister_cb(wifi_manager_cb_s *wmcb)
 	return WIFI_MANAGER_SUCCESS;
 }
 
-wifi_manager_result_e wifi_manager_control_bridge(uint8_t enable)
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
+wifi_manager_result_e wifi_manager_control_bridge(bool enable, wifi_manager_softap_config_s *softap_config)
 {
 	NET_LOGI(TAG, "--> %s %d\n", __FUNCTION__, __LINE__);
-	wifimgr_msg_s msg = {WIFIMGR_CMD_SET_BRIDGE, WIFI_MANAGER_FAIL, (void *)&enable, 0};
-	RETURN_RESULT(wifimgr_post_message(&msg), msg);
+	sem_t signal;
+	sem_init(&signal, 0, 0);
+
+	wifi_manager_bridge_config_s config = { (uint8_t)enable, *softap_config };
+	wifimgr_msg_s msg = {WIFIMGR_CMD_SET_BRIDGE, WIFI_MANAGER_FAIL, (void *)&config, &signal};
+
+	int res = wifimgr_post_message(&msg);
+	if (res < 0 || msg.result != WIFI_MANAGER_SUCCESS) {
+		sem_destroy(msg.signal);
+		if (res < 0) {
+			return WIFI_MANAGER_FAIL;
+		}
+		return msg.result;
+	}
+
+	sem_wait(msg.signal);
+	sem_destroy(msg.signal);
+
+	return WIFI_MANAGER_SUCCESS;
+
 }
+#endif
 
 /**
  * Wi-Fi Profile

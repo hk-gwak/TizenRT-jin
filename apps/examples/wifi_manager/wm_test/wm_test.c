@@ -954,8 +954,14 @@ void _wt_enable_bridge(void *arg)
 	WT_ENTER;
 	wifi_manager_result_e res = WIFI_MANAGER_SUCCESS;
 	struct wt_options *opt = (struct wt_options *)arg;
+	wifi_manager_softap_config_s softap_config = {
+		0,
+	};
+	softap_config.channel = 1;
+	snprintf(softap_config.ssid, sizeof(softap_config.ssid), "%s", "Samsung Floor A/C_O50AJTAF0777");
+	snprintf(softap_config.passphrase, sizeof(softap_config.passphrase), "1111122222");
 
-	res = wifi_manager_control_bridge(opt->enable_bridge);
+	res = wifi_manager_control_bridge(opt->enable_bridge, &softap_config);
 	if (res != WIFI_MANAGER_SUCCESS) {
 		WT_LOGE(TAG, "wifi_manager_control_bridge fail");
 	}

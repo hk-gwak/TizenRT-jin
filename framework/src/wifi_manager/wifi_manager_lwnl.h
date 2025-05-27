@@ -29,4 +29,6 @@ trwifi_result_e wifi_utils_stop_softap(void);
 trwifi_result_e wifi_utils_set_autoconnect(uint8_t check);
 trwifi_result_e wifi_utils_ioctl(trwifi_msg_s *dmsg);
 trwifi_result_e wifi_utils_scan_multi_aps(void *arg);
-trwifi_result_e wifi_utils_control_bridge(uint enable);
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
+trwifi_result_e wifi_utils_control_bridge(uint8_t enable);
+#endif

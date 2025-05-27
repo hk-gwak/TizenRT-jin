@@ -164,7 +164,6 @@ struct wifi_manager_scan_info_s {
 	wifi_manager_ap_crypto_type_e ap_crypto_type;  /**<  @ref wifi_utils_ap_crypto_type */
 	struct wifi_manager_scan_info_s *next;
 };
-
 typedef struct wifi_manager_scan_info_s wifi_manager_scan_info_s;
 
 struct wifi_manager_cb_msg {
@@ -209,6 +208,15 @@ typedef struct {
 	char passphrase[WIFIMGR_PASSPHRASE_LEN + 1];
 	uint16_t channel;
 } wifi_manager_softap_config_s;
+
+/**
+ * @brief Specify information of bridge mode on/off and soft access point (softAP)
+ */
+typedef struct {
+	bool enable;
+	wifi_manager_softap_config_s softap_config;
+} wifi_manager_bridge_config_s;
+
 
 /**
  * @brief Specify the policy of reconnect when the device is disconnected
@@ -488,16 +496,19 @@ wifi_manager_result_e wifi_manager_get_stats(wifi_manager_stats_s *stats);
  */
 wifi_manager_result_e wifi_manager_set_powermode(wifi_manager_powermode_e mode);
 
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 /**
  * @brief Start Wi-Fi Manager bridge mode.
  * @details @b #include <wifi_manager/wifi_manager.h>
- * @param[in]  enable : 1, disable :0
+ * @param[in]  enable : true, disable : false
  * @return On success, WIFI_MANAGER_SUCCESS (i.e., 0) is returned. On failure, non-zero value is returned.
  * @API_type: synchronous
  * @callback: none
  * @since TizenRT v1.1
  */
-wifi_manager_result_e wifi_manager_control_bridge(uint8_t enable);
+wifi_manager_result_e wifi_manager_control_bridge(bool enable, wifi_manager_softap_config_s *softap_config);
+#endif
+
 
 #ifdef __cplusplus
 }
